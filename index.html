@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Round the World Planner</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .destination {
+            position: absolute;
+            z-index: 1;
+            background-color: #eee;
+            padding: 15px;
+            top: 20px;
+            left: 20px;
+        }
+
+        .destination__list {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="destination">
+    <input autofocus autocomplete="off" placeholder="Add a new country" v-model="newDestinationName" @keyup.enter="addDestination">
+    <ol class="destination__list">
+        <li v-for="destination in destinations">
+            {{ destination.name }}
+        </li>
+    </ol>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            newDestinationName: '',
+            destinations: [
+                {
+                    name: 'Burma',
+                    lat: 21.916221,
+                    lng: 95.95597399999997
+                },
+                {
+                    name: 'Thailand',
+                    lat: 15.870032,
+                    lng: 100.99254100000007
+                },
+                {
+                    name: 'Vietnam',
+                    lat: 14.058324,
+                    lng: 108.277199
+                }
+            ]
+        },
+        methods: {
+            addDestination: function () {
+                var value = this.newDestinationName && this.newDestinationName.trim();
+                if (!value) {
+                    return
+                }
+                this.destinations.push({
+                    name: value,
+                    lat: 14.058324,
+                    lng: 109.277199
+                });
+                this.newDestinationName = '';
+                addMarkers();
+            }
+        }
+    });
+    var map;
+    var markers = [];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 46.818188, lng: 8.227511999999933},
+            zoom: 3
+        });
+        addMarkers();
+    }
+
+    function addMarkers() {
+        app.destinations.forEach(function (destination) {
+            var marker = new google.maps.Marker({
+                position: {lat: destination.lat, lng: destination.lng},
+                map: map
+            });
+            markers.push(marker);
+        })
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZx8-9nj3y2AEl1N_8avIDQmguJdUbyaA&callback=initMap" async defer></script>
+</body>
+</html>
