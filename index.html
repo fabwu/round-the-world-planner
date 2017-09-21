@@ -31,18 +31,29 @@
 </head>
 <body>
 <div id="app" class="destination" v-cloak>
-    <input autofocus autocomplete="off" placeholder="Add a new country" v-model="newDestinationName" @keyup.enter="addDestination">
+    <input autofocus autocomplete="off" placeholder="Add a new country" v-model="search">
+    <div>
+        <ul>
+            <li v-for="country in filteredCountries">
+                <a href="" @click.prevent="addDestination(country)">
+                    {{ country.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
     <ol class="destination__list">
         <li v-for="destination in destinations">{{ destination.name }}</li>
     </ol>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/vue"></script>
+<script src="countries.js"></script>
 <script>
     var app = new Vue({
         el: '#app',
         data: {
-            newDestinationName: '',
+            search: '',
+            countries: countries,
             destinations: [
                 {
                     name: 'Burma',
@@ -61,19 +72,31 @@
                 }
             ]
         },
-        methods: {
-            addDestination: function () {
-                var value = this.newDestinationName && this.newDestinationName.trim();
-                if (!value) {
-                    return
-                }
-                this.destinations.push({
-                    name: value,
-                    lat: 14.058324,
-                    lng: 109.277199
+        computed: {
+            filteredCountries: function () {
+                var self = this;
+                return self.countries.filter(function (country) {
+                    return country.name.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
                 });
-                this.newDestinationName = '';
-                addMarkers();
+            }
+        },
+        methods: {
+            addDestination: function (country) {
+                var self = this;
+                var sameCountries = self.destinations.filter(function (destination) {
+                    return destination.name === country.name;
+                });
+
+                if (sameCountries.length === 0) {
+                    self.destinations.push(country);
+                    self.newDestinationName = '';
+
+                    self.countries = self.countries.filter(function (existingCountry) {
+                        return existingCountry.name !== country.name;
+                    });
+
+                    renderMarkers();
+                }
             }
         }
     });
@@ -85,10 +108,11 @@
             center: {lat: 46.818188, lng: 8.227511999999933},
             zoom: 3
         });
-        addMarkers();
+        renderMarkers();
     }
 
-    function addMarkers() {
+    //TODO Call everytime a destination changed
+    function renderMarkers() {
         app.destinations.forEach(function (destination) {
             var marker = new google.maps.Marker({
                 position: destination,
