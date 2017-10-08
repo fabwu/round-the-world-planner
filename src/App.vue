@@ -29,6 +29,15 @@
         unselectedDestinations: countries.sort(name)
       }
     },
+    created: function () {
+      const savedDestinations = JSON.parse(localStorage.getItem('myDestinations')) || []
+      savedDestinations.forEach(this.addDestination)
+    },
+    watch: {
+      selectedDestinations (destinations) {
+        localStorage.setItem('myDestinations', JSON.stringify(destinations))
+      }
+    },
     methods: {
       addDestination: function (destination) {
         this.selectedDestinations.push(destination)
