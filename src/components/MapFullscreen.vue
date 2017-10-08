@@ -4,12 +4,37 @@
 </template>
 
 <script>
+  /* eslint-disable no-undef,no-new */
+
+  let map
+
   export default {
-    name: 'map-fullscreen'
+    name: 'map-fullscreen',
+    props: ['destinations'],
+    watch: {
+      destinations (destinations) {
+        renderMarkers(destinations)
+      }
+    }
+  }
+
+  function renderMarkers (destinations) {
+    destinations.forEach(function (destination) {
+      new google.maps.Marker({
+        position: destination,
+        map: map
+      })
+    })
+
+    const path = new google.maps.Polyline({
+      path: destinations
+    })
+
+    path.setMap(map)
   }
 
   function renderMap () {
-    const map = new window.google.maps.Map(document.getElementById('map'), {
+    map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 46.818188, lng: 8.227511999999933},
       zoom: 3,
       maxZoom: 5,
@@ -126,7 +151,6 @@
         }
       ]
     })
-    console.log(map)
   }
 
   window.initMap = renderMap

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <map-fullscreen></map-fullscreen>
-        <destination-picker v-on:destination-selected="showDestination"></destination-picker>
+        <map-fullscreen :destinations="destinations"></map-fullscreen>
+        <destination-picker v-on:destination-selected="addDestination"></destination-picker>
     </div>
 </template>
 
@@ -15,9 +15,14 @@
       MapFullscreen,
       DestinationPicker
     },
+    data () {
+      return {
+        destinations: []
+      }
+    },
     methods: {
-      showDestination: function (destination) {
-        console.log(destination)
+      addDestination: function (destination) {
+        this.destinations.push(destination)
       }
     }
   }
