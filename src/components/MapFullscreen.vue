@@ -14,6 +14,7 @@
       zoom: 3,
       maxZoom: 5,
       minZoom: 3,
+      disableDefaultUI: true,
       styles: [
         {
           'featureType': 'administrative',

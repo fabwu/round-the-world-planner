@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <map-fullscreen></map-fullscreen>
-        <!--<destination-picker v-on:destination-selected="showDestination"></destination-picker>-->
+        <destination-picker v-on:destination-selected="showDestination"></destination-picker>
     </div>
 </template>
 
@@ -28,6 +28,12 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
     }
 
     #app {
