@@ -14,20 +14,23 @@
     name: 'destination-picker',
     data () {
       return {
-        search: ''
+        search: '',
+        countries: countries
       }
     },
     computed: {
       filteredCountries: function () {
         const self = this
-        return countries.filter(function (country) {
+        return self.countries.filter(function (country) {
           return country.name.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
         })
       }
     },
     methods: {
       selectDestination: function (destination) {
+        const self = this
         this.$emit('destination-selected', destination)
+        self.countries = self.countries.filter((country) => { return destination.name !== country.name })
       }
     }
   }
