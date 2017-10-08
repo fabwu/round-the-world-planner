@@ -38,16 +38,18 @@
 
 <style scoped>
     .destination-picker {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        width: 15%;
+        position: relative;
     }
 
     input {
         width: 100%;
         padding: 0.6rem;
         border: 1px solid #888;
+    }
+
+    .list-group {
+        position: absolute;
+        width: 100%;
     }
 
     .list-group-item {
