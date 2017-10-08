@@ -1,7 +1,10 @@
 <template>
     <div class="destination-picker">
-        <input autofocus autocomplete="off" placeholder="Add a new country" v-model="search">
-        <div v-if="search" class="list-group">
+        <div class="search-container">
+            <input autofocus autocomplete="off" type="search" placeholder="Add a new country" v-model="search">
+            <button type="button" class="search-reset" @click="reset()"><span>&times;</span></button>
+        </div>
+        <div v-if="show" class="list-group">
             <a v-for="country in filteredCountries" class="list-group-item" @click.prevent="selectDestination(country)" href="">{{ country.name }}</a>
         </div>
     </div>
@@ -24,13 +27,20 @@
         return self.countries.filter(function (country) {
           return country.name.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
         })
+      },
+      show: function () {
+        return this.search !== ''
       }
     },
     methods: {
+      reset: function () {
+        this.search = ''
+      },
       selectDestination: function (destination) {
         const self = this
         this.$emit('destination-selected', destination)
         self.countries = self.countries.filter((country) => { return destination.name !== country.name })
+        self.reset()
       }
     }
   }
@@ -41,10 +51,23 @@
         position: relative;
     }
 
+    .search-container {
+        position: relative;
+    }
+
     input {
         width: 100%;
         padding: 0.6rem;
         border: 1px solid #888;
+    }
+
+    .search-reset {
+        position: absolute;
+        right: 0;
+        background: 0;
+        border: 0;
+        height: 100%;
+        cursor: pointer;
     }
 
     .list-group {
