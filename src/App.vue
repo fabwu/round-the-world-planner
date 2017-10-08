@@ -1,10 +1,10 @@
 <template>
     <div id="app">
-        <map-fullscreen :destinations="destinations"></map-fullscreen>
+        <map-fullscreen :destinations="selectedDestinations"></map-fullscreen>
         <div class="trip-container">
             <h1>My Trip</h1>
-            <destination-picker v-on:destination-selected="addDestination"></destination-picker>
-            <destination-list :destinations="destinations"></destination-list>
+            <destination-picker :destinations="unselectedDestinations" v-on:destination-selected="addDestination"></destination-picker>
+            <destination-list :destinations="selectedDestinations" v-on:destination-removed="removeDestination"></destination-list>
         </div>
     </div>
 </template>
@@ -13,6 +13,8 @@
   import MapFullscreen from './components/MapFullscreen.vue'
   import DestinationPicker from './components/DestinationPicker.vue'
   import DestinationList from './components/DestinationList.vue'
+
+  import countries from './assets/countries'
 
   export default {
     name: 'app',
@@ -23,14 +25,29 @@
     },
     data () {
       return {
-        destinations: []
+        selectedDestinations: [],
+        unselectedDestinations: countries.sort(name)
       }
     },
     methods: {
       addDestination: function (destination) {
-        this.destinations.push(destination)
+        this.selectedDestinations.push(destination)
+        this.unselectedDestinations = removeDestination(destination, this.unselectedDestinations)
+      },
+      removeDestination: function (destination) {
+        this.unselectedDestinations.push(destination)
+        this.unselectedDestinations.sort(name)
+        this.selectedDestinations = removeDestination(destination, this.selectedDestinations)
       }
     }
+  }
+
+  function removeDestination (destination, array) {
+    return array.filter((currentDestination) => { return currentDestination.name !== destination.name })
+  }
+
+  function name (a, b) {
+    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
   }
 </script>
 

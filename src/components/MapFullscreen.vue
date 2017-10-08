@@ -7,6 +7,8 @@
   /* eslint-disable no-undef,no-new */
 
   let map
+  let path
+  let markers = []
 
   export default {
     name: 'map-fullscreen',
@@ -19,17 +21,20 @@
   }
 
   function renderMarkers (destinations) {
-    destinations.forEach(function (destination) {
-      new google.maps.Marker({
+    markers.forEach((marker) => { marker.setMap(null) })
+
+    markers = destinations.map(function (destination) {
+      return new google.maps.Marker({
         position: destination,
         map: map
       })
     })
 
-    const path = new google.maps.Polyline({
-      path: destinations
-    })
+    if (path) {
+      path.setMap(null)
+    }
 
+    path = new google.maps.Polyline({path: destinations})
     path.setMap(map)
   }
 
