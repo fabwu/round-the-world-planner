@@ -55,7 +55,7 @@
     input {
         width: 100%;
         padding: 0.6rem;
-        border: 1px solid #888;
+        border: 1px solid #ddd;
     }
 
     .search-reset {
@@ -73,13 +73,12 @@
     }
 
     .list-group-item {
-        font-size: 0.8rem;
         display: block;
         padding: 0.5rem;
         text-decoration: none;
         color: inherit;
         background-color: #fff;
-        border: 1px solid #c5c6c6;
+        border: 1px solid #ddd;
         border-bottom: 0;
     }
 
@@ -88,10 +87,10 @@
     }
 
     .list-group-item:last-child {
-        border: 1px solid #c5c6c6;
+        border: 1px solid #ddd;
     }
 
     .list-group-item:hover {
-        background-color: #c5c6c6;
+        background-color: #f8f8f8;
     }
 </style>

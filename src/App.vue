@@ -1,11 +1,12 @@
 <template>
     <div id="app">
         <map-fullscreen :destinations="selectedDestinations"></map-fullscreen>
-        <div class="trip-container">
-            <h1>My Trip</h1>
+        <div class="picker-container">
             <destination-picker :destinations="unselectedDestinations" v-on:destination-selected="addDestination"></destination-picker>
-            <destination-list :destinations="selectedDestinations" v-on:destination-removed="removeDestination"></destination-list>
         </div>
+        <aside class="sidebar-right">
+            <destination-list :destinations="selectedDestinations" v-on:destination-removed="removeDestination"></destination-list>
+        </aside>
     </div>
 </template>
 
@@ -67,26 +68,35 @@
         padding: 0;
         box-sizing: border-box;
         font-family: sans-serif;
+        font-size: 13px;
     }
 
     *, *:before, *:after {
         box-sizing: inherit;
     }
 
+    .hidden {
+        display: none;
+    }
+
     #app {
         height: 100%;
     }
 
-    .trip-container {
+    .picker-container {
         position: absolute;
         top: 1rem;
         left: 1rem;
-        background-color: #fff;
-        padding: 1rem;
         width: 15%;
     }
 
-    h1 {
-        font-size: 1rem;
+    .sidebar-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 15%;
+        height: 100%;
+        background-color: white;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     }
 </style>

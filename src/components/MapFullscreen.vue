@@ -6,12 +6,11 @@
 <script>
   /* eslint-disable no-undef,no-new */
 
-  let vm
   let map
   let path
   let markers = []
 
-  export default vm = {
+  export default {
     name: 'map-fullscreen',
     props: ['destinations'],
     watch: {
