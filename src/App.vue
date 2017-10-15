@@ -14,8 +14,8 @@
   import MapFullscreen from './components/MapFullscreen.vue'
   import DestinationPicker from './components/DestinationPicker.vue'
   import DestinationList from './components/DestinationList.vue'
-
   import countries from './assets/countries'
+  import './assets/icons/ionicons.min.css'
 
   export default {
     name: 'app',

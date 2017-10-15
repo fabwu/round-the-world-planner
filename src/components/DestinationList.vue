@@ -2,14 +2,17 @@
     <div class="destination-list">
         <div class="location" v-for="(destination, index) in destinations">
             <div class="location__header" @click="selectDestination(destination)">
-                <div class="location__dot" :class="{'location__dot--selected': isDestinationSelected(destination)}"></div>
+                <div class="location__dot"
+                     :class="{'location__dot--selected': isDestinationSelected(destination)}"></div>
                 {{ destination.name }}
+                <span class="ion ion-trash-b location__remove" @click.prevent="removeDestination(destination)"></span>
             </div>
             <div class="location__description" v-if="isDestinationSelected(destination)">
                 <p>
                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
             </div>
-            <div class="location__line" v-if="index !== destinations.length - 1 && !isDestinationSelected(destination)"></div>
+            <div class="location__line"
+                 v-if="index !== destinations.length - 1 && !isDestinationSelected(destination)"></div>
         </div>
     </div>
 </template>
@@ -20,14 +23,15 @@
     props: ['destinations'],
     data () {
       return {
-        selectedDestination: {}
+        selectedDestination: {},
       }
     },
     methods: {
       selectDestination: function (destination) {
         if (this.isDestinationSelected(destination)) {
           this.selectedDestination = {}
-        } else {
+        }
+        else {
           this.selectedDestination = destination
         }
       },
@@ -36,8 +40,8 @@
       },
       removeDestination: function (destination) {
         this.$emit('destination-removed', destination)
-      }
-    }
+      },
+    },
   }
 </script>
 
@@ -68,6 +72,11 @@
         position: absolute;
         left: 12px;
         top: 13px;
+    }
+
+    .location__remove {
+        color: #acbcc9;
+        font-size: 1.1em;
     }
 
     .location__dot--selected {
